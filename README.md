@@ -28,15 +28,17 @@ It's currently a manual process. [Submit your request issue](https://github.com/
 
 Once the repo enables Knightly, everyone can pin [@knightly-bot](https://github.com/knightly-bot) in **a PR**, like:
 
-![](./res/pinning.png)
-
 ```css
 @knightly-bot build this
 ```
 
+![](./res/pinning.png)
+
+The bot will leaves a comment asking the community to vote on it. 
+
 ![](./res/vote.png)
 
-The bot will leaves a comment asking the community to vote on it. If the comment receives 10 thumbs up 👍. The nightly build for the PR will be enabled automatically.
+If the comment receives 10 thumbs up 👍. The nightly build for the PR will be enabled automatically.
 
 ![](./res/build.png)
 
