@@ -1,0 +1,19 @@
+{
+
+  "compilerOptions": {
+    "module": "esnext",
+    "target": "es2019",
+    "lib": ["ESNext"],
+    "esModuleInterop": true,
+    "moduleResolution": "node",
+    "strict": true,
+    "strictNullChecks": true,
+    "resolveJsonModule": true
+  },
+  "exclude": [
+    "dist",
+    "bin",
+    "knightly",
+    "node_modules"
+  ]
+}
