@@ -16,14 +16,6 @@ So I made `Knightly`, trying to **make the nightly build process universally ava
 
 ## Usages
 
-### Badge 
-
-![](./res/badge.svg)
-
-```md
-![Nightly Build](https://github.com/knightlyjs/knightly/blob/main/res/badge.svg?raw=true)
-```
-
 ### Community Maintained Builds
 
 Community maintained builds will be published under the [@knightly](https://www.npmjs.com/org/knightly) npm org. You can find the active build tasks in [knightlyjs/tasks](https://github.com/knightlyjs/tasks).
@@ -57,6 +49,14 @@ Scripts for the bot can be found in [knightlyjs/bot](https://github.com/knightly
 ### APIs
 
 > 🚧 This project is still under heavy development, the APIs may change without advance notice. You can use TypeScript auto-completion for now.
+
+### Badge 
+
+![](./res/badge.svg)
+
+```md
+![Nightly Build](https://github.com/knightlyjs/knightly/blob/main/res/badge.svg?raw=true)
+```
 
 ## Sponsors
 
