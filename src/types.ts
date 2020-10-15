@@ -16,7 +16,7 @@ export interface KnightlyTask {
 
   noSkip?: boolean
   official?: boolean
-  maintainer?: string
+  maintainers?: string[]
   enabled?: boolean
 }
 

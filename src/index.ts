@@ -8,13 +8,14 @@ import pacote from 'pacote'
 import chalk from 'chalk'
 import { paramCase } from 'param-case'
 import fg from 'fast-glob'
+import { version } from '../package.json'
 import { CI, KNIGHTLY_DEBUG, NPM_TOKEN, octokit } from './config'
 import { KnightlyJob, KnightlyTask, PackageInfo } from './types'
 
 export type CloneResult = ReturnType<typeof clone> extends Promise<infer T> ? T : never
 export type JobResult = ReturnType<typeof runPublishJob> extends Promise<infer T> ? T : never
 export * from './types'
-export { version } from '../package.json'
+export { version }
 
 async function run(command: string, dir: string, env: Record<string, string> = {}, stdio?: 'inherit') {
   console.log(chalk.blue(`$ ${command}`))
@@ -160,6 +161,22 @@ export async function rewriteSingle(
     ? `//github.com/${task.owner}/${task.repo}/pull/${pr}/files`
     : `//github.com/${task.owner}/${task.repo}/compare/v${packageJSON.version}...${sha}`
 
+  const table: [string, string][] = []
+
+  table.push([`package (\`${originalName}\`)`, `\`${targetName}\``])
+
+  if (pr)
+    table.push(['PR', `[#${pr}](//github.com/${task.owner}/${task.repo}/pull/${pr})`])
+
+  table.push([`version (\`${packageJSON.version}*\`)`, `\`${targetVersion}\``])
+  table.push(['last commit', lastMessage])
+  table.push([`sha (\`${publishTag || 'HEAD'}\`)`, `\`${sha}\``])
+  table.push(['changes', `[compare with last release](${compareLink})`])
+  table.push(['build', now.toISOString()])
+
+  if (task.maintainers?.length)
+    table.push(['mantained by', task.maintainers.map(m => `[@${m}](//github.com/${m}`).join(' ')])
+
   const readme = `
 # [${originalName}](//github.com/${task.owner}/${task.repo})
 
@@ -169,13 +186,7 @@ ${task.official ? '' : '[**Unofficial**] '}Nightly build for ${repoLink}, publis
 
 | | |
 | --- | --- |
-| package (\`${originalName}\`) | \`${targetName}\` |
-| version (\`${packageJSON.version}*\`) | \`${targetVersion}\` |
-| last commit | ${lastMessage} |
-| sha (\`${publishTag || 'HEAD'}\`) | \`${sha}\` |
-| changes | [compare with last release](${compareLink}) |
-| build | ${now.toISOString()} |
-${pr ? `| PR | [#${pr}](//github.com/${task.owner}/${task.repo}/pull/${pr}) |\n` : ''}${task.maintainer ? `| builds mantained by | [@${task.maintainer}](//github.com/${task.maintainer}) |\n` : ''}
+${table.map(([a, b]) => `| ${a} | ${b}`).join('\n')}
 
 > [More PRs and branches builds](//www.npmjs.com/package/${targetName}?activeTab=versions)
 
@@ -196,6 +207,8 @@ or edit your \`package.json\`
   "${packageJSON.name}": "${npmRange}"
 }
 \`\`\`
+
+Knightly v${version}
 `
 
   packageJSON.version = targetVersion
@@ -325,13 +338,13 @@ export async function runPublishJob(job: KnightlyJob, dryRun = false) {
   }
 }
 
-export async function publishSingle({ dir, packageJSON }: PackageInfo, { publishTag, task }: KnightlyJob, dryRun = false) {
+export async function publishSingle({ dir, packageJSON }: PackageInfo, { publishTag, task: { defaultBranch = 'master' } }: KnightlyJob, dryRun = false) {
   // remove all scripts
   await fs.writeJSON(path.join(dir, 'package.json'), { ...packageJSON, scripts: {} }, { spaces: 2 })
 
   // publish
   run(`npm publish --access public --tag ${publishTag} ${dryRun ? '--dry-run' : ''}`, dir, { NODE_AUTH_TOKEN: NPM_TOKEN! })
-  if (publishTag === task.defaultBranch && !dryRun)
+  if (publishTag === defaultBranch && !dryRun)
     run(`npm dist-tag add ${packageJSON.name}@${publishTag} latest`, dir, { NODE_AUTH_TOKEN: NPM_TOKEN! })
 }
 
