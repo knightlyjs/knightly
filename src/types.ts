@@ -29,10 +29,6 @@ export interface KnightlyJob {
   task: KnightlyTask
 }
 
-export interface KnightlyUserConfig extends Partial<KnightlyTask> {
-  repoUrl?: string
-}
-
 export interface PackageInfo {
   originalName: string
   targetName: string

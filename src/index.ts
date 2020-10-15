@@ -14,7 +14,6 @@ import { KnightlyJob, KnightlyTask, PackageInfo } from './types'
 export type CloneResult = ReturnType<typeof clone> extends Promise<infer T> ? T : never
 export type JobResult = ReturnType<typeof runPublishJob> extends Promise<infer T> ? T : never
 export * from './types'
-export * from './utils'
 export { version } from '../package.json'
 
 async function run(command: string, dir: string, env: Record<string, string> = {}, stdio?: 'inherit') {

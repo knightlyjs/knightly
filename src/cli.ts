@@ -3,7 +3,8 @@ import fs from 'fs-extra'
 import yargs from 'yargs'
 import YAML from 'js-yaml'
 import chalk from 'chalk'
-import { KnightlyUserConfig, resolveTasks, resolveUserConfig, runPublishJob, version } from '.'
+import { KnightlyTask } from './types'
+import { resolveTasks, runPublishJob, version } from '.'
 
 yargs
   .scriptName('knightly')
@@ -27,11 +28,12 @@ yargs
     async(args) => {
       console.log(`${chalk.blue('Knightly ')}${chalk.cyan(`v${version}`)}\n`)
 
-      let configs = YAML.safeLoad(await fs.readFile(args.config, 'utf-8')) as (KnightlyUserConfig[] | KnightlyUserConfig)
-      if (!Array.isArray(configs))
-        configs = [configs]
+      let tasks: KnightlyTask[] | KnightlyTask = args.config.match(/.ya?ml$/i)
+        ? YAML.safeLoad(await fs.readFile(args.config, 'utf-8'))
+        : JSON.parse(await fs.readFile(args.config, 'utf-8'))
 
-      const tasks = resolveUserConfig(configs)
+      if (!Array.isArray(tasks))
+        tasks = [tasks]
 
       for (const task of tasks) {
         const jobs = await resolveTasks(task)
