@@ -186,7 +186,7 @@ ${task.official ? '' : '[**Unofficial**] '}Nightly build for ${repoLink}, publis
 
 | | |
 | --- | --- |
-${table.map(([a, b]) => `| ${a} | ${b}`).join('\n')}
+${table.map(([a, b]) => `| ${a} | ${b} |`).join('\n')}
 
 > [More PRs and branches builds](//www.npmjs.com/package/${targetName}?activeTab=versions)
 
