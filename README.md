@@ -14,6 +14,8 @@ Waiting for PRs getting merged and new version getting released sometimes can be
 
 So I made `Knightly`, trying to **make the nightly build process universally available to any projects**. Don't get frustrated when the maintainers are not available to make releases. And maintainers could also have less pressure to make everything on schedule.
 
+No more *"when will this be merged?"* or *"when will x.x.x be released?"* - If you really need them, just use the nightly builds before the official release came out!
+
 ## Usages
 
 ### Community Maintained Builds
