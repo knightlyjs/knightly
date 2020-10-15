@@ -36,7 +36,7 @@ Once the repo enables Knightly, everyone can pin [@knightly-bot](https://github.
 
 ![](./res/pinning.png)
 
-The bot will leaves a comment asking the community to vote on it. 
+The bot will leave a comment asking the community to vote on it.
 
 ![](./res/vote.png)
 
