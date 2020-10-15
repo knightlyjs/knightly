@@ -174,8 +174,8 @@ export async function rewriteSingle(
   table.push(['changes', `[compare with last release](${compareLink})`])
   table.push(['build', now.toISOString()])
 
-  if (task.maintainers?.length)
-    table.push(['mantained by', task.maintainers.map(m => `[@${m}](//github.com/${m}`).join(' ')])
+  // if (task.maintainers?.length)
+  //   table.push(['mantained by', task.maintainers.map(m => `[@${m}](//github.com/${m}`).join(' ')])
 
   const readme = `
 # [${originalName}](//github.com/${task.owner}/${task.repo})
