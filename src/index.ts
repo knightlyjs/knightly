@@ -345,7 +345,7 @@ export async function publishSingle({ dir, packageJSON }: PackageInfo, { publish
   // publish
   run(`npm publish --access public --tag ${publishTag} ${dryRun ? '--dry-run' : ''}`, dir, { NODE_AUTH_TOKEN: NPM_TOKEN! })
   if (publishTag === defaultBranch && !dryRun)
-    run(`npm dist-tag add ${packageJSON.name}@${publishTag} latest`, dir, { NODE_AUTH_TOKEN: NPM_TOKEN! })
+    run(`npm dist-tag add ${packageJSON.name}@${packageJSON.version} latest`, dir, { NODE_AUTH_TOKEN: NPM_TOKEN! })
 }
 
 export async function runPublishTasks(tasks: KnightlyTask[] | KnightlyTask) {
