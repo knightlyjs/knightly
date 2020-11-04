@@ -138,12 +138,18 @@ async function rewriteDeps(
   if (!dep)
     return
 
-  for (const [f, t] of Object.entries(map)) {
-    if (dep[f]) {
-      delete dep[f]
-      dep[t] = version
-    }
+  for (const [from, target] of Object.entries(map)) {
+    if (dep[from])
+      dep[from] = `npm:${target}@${version}`
   }
+}
+
+export async function rewriteVersionSingle(
+  { dir, packageJSON }: PackageInfo,
+  { targetVersion }: CloneResult) {
+  packageJSON.version = targetVersion
+
+  await fs.writeJSON(path.join(dir, 'package.json'), packageJSON, { spaces: 2 })
 }
 
 export async function rewriteSingle(
@@ -178,7 +184,7 @@ export async function rewriteSingle(
   //   table.push(['mantained by', task.maintainers.map(m => `[@${m}](//github.com/${m}`).join(' ')])
 
   const readme = `
-# [${originalName}](//github.com/${task.owner}/${task.repo})
+# [${originalName}](https://github.com/${task.owner}/${task.repo})
 
 [![Knightly Build](https://github.com/knightlyjs/knightly/blob/main/res/badge.svg?raw=true)](https://github.com/knightlyjs/knightly) ${getTimestampBadge()}
 
@@ -188,7 +194,7 @@ ${task.official ? '' : '[**Unofficial**] '}Nightly build for ${repoLink}, publis
 | --- | --- |
 ${table.map(([a, b]) => `| ${a} | ${b} |`).join('\n')}
 
-> [More PRs and branches builds](//www.npmjs.com/package/${targetName}?activeTab=versions)
+> [More PRs and branches builds](https://www.npmjs.com/package/${targetName}?activeTab=versions)
 
 ### Usage
 
@@ -207,6 +213,18 @@ or edit your \`package.json\`
   "${packageJSON.name}": "${npmRange}"
 }
 \`\`\`
+
+${task.packagesNameMap ? `
+## Packages
+
+| Package | Knightly |
+| --- | --- |
+${Object
+    .entries(task.packagesNameMap)
+    .map(([name, target]) => {
+      return `| \`${name}\` | [\`${target}\`](https://www.npmjs.com/package/${target}/v/${targetVersion}) |`
+    }).join('\n')}
+` : ''}
 
 Knightly v${version}
 `
@@ -304,10 +322,13 @@ export async function runPublishJob(job: KnightlyJob, dryRun = false) {
     console.log(`- Building ${job.task.publishName}`)
 
     for (const pkg of cloneResult.packages)
-      await rewriteSingle(pkg, cloneResult, job)
+      await rewriteVersionSingle(pkg, cloneResult)
 
     await install(cloneResult)
     await build(cloneResult, job)
+
+    for (const pkg of cloneResult.packages)
+      await rewriteSingle(pkg, cloneResult, job)
 
     for (const pkg of cloneResult.packages) {
       try {
