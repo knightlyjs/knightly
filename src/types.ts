@@ -1,3 +1,9 @@
+import { runPublishJob } from './tasks/runPublishJob'
+
+export type { CloneResult } from './operations/clone'
+
+export type JobResult = ReturnType<typeof runPublishJob> extends Promise<infer T> ? T : never
+
 export interface KnightlyTask {
   publishName: string
   owner: string
