@@ -16,6 +16,8 @@ So I made `Knightly`, trying to **make the nightly build process universally ava
 
 No more *"when will this be merged?"* or *"when will x.x.x be released?"* - If you really need them, just use the nightly builds before the official release came out!
 
+NPM Demo: [vuejs/vue-next@ref-sugar](https://www.npmjs.com/package/@knightly/vue/v/ref-sugar)
+
 ## Usages
 
 ### Community Maintained Builds
