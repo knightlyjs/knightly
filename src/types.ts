@@ -39,5 +39,6 @@ export interface PackageInfo {
   originalName: string
   targetName: string
   dir: string
+  filepath: string
   packageJSON: any
 }

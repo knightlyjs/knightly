@@ -18,13 +18,13 @@ async function rewriteDeps(
 }
 
 export async function rewritePackageVersion(
-  { dir, packageJSON }: PackageInfo,
+  { filepath, packageJSON }: PackageInfo,
   { targetVersion }: CloneResult,
 ) {
   packageJSON.stableVersion = packageJSON.version
   packageJSON.version = targetVersion
 
-  await fs.writeJSON(path.join(dir, 'package.json'), packageJSON, { spaces: 2 })
+  await fs.writeJSON(filepath, packageJSON, { spaces: 2 })
 }
 
 export async function rewritePackage(
@@ -32,7 +32,7 @@ export async function rewritePackage(
   clone: CloneResult,
   job: KnightlyJob,
 ) {
-  const { dir, packageJSON, targetName } = pkg
+  const { filepath, dir, packageJSON, targetName } = pkg
   const { sha, targetVersion } = clone
   const { task } = job
 
@@ -46,6 +46,6 @@ export async function rewritePackage(
   rewriteDeps(packageJSON.devDependencies, task.packagesNameMap, targetVersion)
   rewriteDeps(packageJSON.peerDependencies, task.packagesNameMap, targetVersion)
 
-  await fs.writeJSON(path.join(dir, 'package.json'), packageJSON, { spaces: 2 })
+  await fs.writeJSON(filepath, packageJSON, { spaces: 2 })
   await fs.writeFile(path.join(dir, 'README.md'), readme)
 }

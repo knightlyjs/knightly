@@ -34,12 +34,18 @@ export async function clone({ owner, repo, branch: ref, task, publishTag }: Knig
 
     for (const dirName of packageDirs) {
       const dir = path.join(root, dirName)
-      const subPackageJSON = await fs.readJSON(path.join(dir, 'package.json'))
+      const filepath = path.join(dir, 'package.json')
+
+      if (!fs.existsSync(filepath))
+        continue
+
+      const subPackageJSON = await fs.readJSON(filepath)
       if (task.packagesNameMap![subPackageJSON.name] && subPackageJSON.private !== true) {
         packages.push({
           originalName: subPackageJSON.name,
           targetName: task.packagesNameMap![subPackageJSON.name],
           dir,
+          filepath,
           packageJSON: subPackageJSON,
         })
       }
@@ -50,6 +56,7 @@ export async function clone({ owner, repo, branch: ref, task, publishTag }: Knig
       originalName: packageJSON.name,
       targetName: task.publishName,
       dir: root,
+      filepath: path.join(root, 'package.json'),
       packageJSON,
     })
   }
