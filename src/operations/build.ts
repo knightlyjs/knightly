@@ -6,8 +6,6 @@ export async function build({ root, packageJSON }: CloneResult, { task: { buildS
     run(buildScript, root, {}, 'inherit')
   else if (packageJSON.scripts?.knightly)
     run('npm run knightly', root, {}, 'inherit')
-  else if (packageJSON.scripts?.prepare)
-    run('npm run prepare', root, {}, 'inherit')
   else if (packageJSON.scripts?.build)
     run('npm run build', root, {}, 'inherit')
 
