@@ -41,7 +41,15 @@ export async function runPublishJob(job: KnightlyJob, dryRun = false) {
 
   try {
     cloneResult = await clone(job)
+  }
+  catch (e) {
+    console.error(e)
+    console.log(chalk.red(`% Failed to clone ${job.owner}/${job.repo} at ${job.branch || job.pr}`))
+    console.log()
+    return
+  }
 
+  try {
     console.log(`- Building ${job.task.publishName}`)
 
     for (const pkg of cloneResult.packages)
