@@ -39,8 +39,8 @@ yargs
         const jobs = await resolveTasks(task)
 
         for (const job of jobs) {
-          const { errors } = await runPublishJob(job, args['dry-run'])
-          if (errors.length)
+          const r = await runPublishJob(job, args['dry-run'])
+          if (r && r.errors.length)
             process.exit(1)
         }
       }
