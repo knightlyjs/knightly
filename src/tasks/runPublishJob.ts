@@ -20,21 +20,28 @@ export async function runPublishJob(job: KnightlyJob, dryRun = false) {
   }
   catch { }
 
-  const { data: { commit: { sha: gitSha } } } = await octokit.repos.getBranch({
-    owner: job.owner,
-    repo: job.repo,
-    branch: job.branch,
-  })
+  try {
+    const { data: { commit: { sha: gitSha } } } = await octokit.repos.getBranch({
+      owner: job.owner,
+      repo: job.repo,
+      branch: job.branch,
+    })
 
-  if (remoteSha === gitSha && !job.task.noSkip) {
-    console.log(chalk.yellow('% Same git sha with remote, build skipped'))
-    console.log()
-    return {
-      remoteManifest,
-      cloneResult,
-      job,
-      errors,
+    if (remoteSha === gitSha && !job.task.noSkip) {
+      console.log(chalk.yellow('% Same git sha with remote, build skipped'))
+      console.log()
+      return {
+        remoteManifest,
+        cloneResult,
+        job,
+        errors,
+      }
     }
+  }
+  catch (e) {
+    console.log(chalk.red(`% Failed to fetch ${job.owner}/${job.repo} at ${job.branch || job.pr}`))
+    console.log()
+    return
   }
 
   console.log(`- Cloning ${chalk.green(`${job.owner}/${job.repo} ${job.branch ? `-b ${job.branch}` : ''}`)} ${job.pr ? chalk.magenta(`(#${job.pr})`) : ''}`)
