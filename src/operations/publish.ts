@@ -9,7 +9,7 @@ export async function publish({ dir, packageJSON }: PackageInfo, { publishTag, t
   await fs.writeJSON(path.join(dir, 'package.json'), { ...packageJSON, scripts: {} }, { spaces: 2 })
 
   // publish
-  run(`npm publish --access public --tag ${publishTag} ${dryRun ? '--dry-run' : ''}`, dir, { NODE_AUTH_TOKEN: NPM_TOKEN! })
+  await run(`npm publish --access public --tag ${publishTag} ${dryRun ? '--dry-run' : ''}`, dir, { NODE_AUTH_TOKEN: NPM_TOKEN! })
   if (publishTag === defaultBranch && !dryRun)
-    run(`npm dist-tag add ${packageJSON.name}@${packageJSON.version} latest`, dir, { NODE_AUTH_TOKEN: NPM_TOKEN! })
+    await run(`npm dist-tag add ${packageJSON.name}@${packageJSON.version} latest`, dir, { NODE_AUTH_TOKEN: NPM_TOKEN! })
 }
