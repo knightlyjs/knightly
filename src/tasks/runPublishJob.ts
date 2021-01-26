@@ -57,13 +57,20 @@ export async function runPublishJob(job: KnightlyJob, dryRun = false) {
   }
 
   try {
-    console.log(`- Building ${job.task.publishName}`)
+    console.log(`- Building ${job.task.owner}/${job.task.repo}`)
+
+    console.log('- Packages')
+    for (const pkg of cloneResult.packages)
+      console.log(`  - ${pkg.originalName} -> ${chalk.green(pkg.targetName)} ${chalk.gray(`(${pkg.dir})`)}`)
+    console.log()
 
     for (const pkg of cloneResult.packages)
       await rewritePackageVersion(pkg)
 
     await install(cloneResult)
-    await build(cloneResult.root, cloneResult.packageJSON, job)
+
+    if (!job.task.buildForEach)
+      await build(cloneResult.root, cloneResult.packageJSON, job)
 
     for (const pkg of cloneResult.packages)
       await rewritePackage(pkg, cloneResult, job)
