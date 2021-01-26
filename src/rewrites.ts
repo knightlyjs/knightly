@@ -18,8 +18,7 @@ async function rewriteDeps(
 }
 
 export async function rewritePackageVersion(
-  { filepath, packageJSON }: PackageInfo,
-  { targetVersion }: CloneResult,
+  { filepath, packageJSON, targetVersion }: PackageInfo,
 ) {
   packageJSON.stableVersion = packageJSON.version
   packageJSON.version = targetVersion
@@ -32,8 +31,8 @@ export async function rewritePackage(
   clone: CloneResult,
   job: KnightlyJob,
 ) {
-  const { filepath, dir, packageJSON, targetName } = pkg
-  const { sha, targetVersion } = clone
+  const { filepath, dir, packageJSON, targetName, targetVersion } = pkg
+  const { sha } = clone
   const { task } = job
 
   const readme = generateREADME(pkg, clone, job)

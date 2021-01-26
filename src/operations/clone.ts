@@ -26,7 +26,11 @@ export async function clone({ owner, repo, branch: ref, task, publishTag }: Knig
   const lastMessage = (await git.log(['-1']))?.latest?.message
 
   const subversion = `knightly${publishTag ? `-${publishTag}` : ''}`
-  const targetVersion = `${semver.valid(semver.coerce(packageJSON.version))}-${subversion}.${now.format('YYYYMMDDHHmm')}`
+  function getTargetVersion(sourceVersion: string) {
+    return `${semver.valid(semver.coerce(sourceVersion))}-${subversion}.${now.format('YYYYMMDDHHmm')}`
+  }
+
+  const targetVersion = getTargetVersion(packageJSON.version)
 
   const packages: PackageInfo[] = []
   if (task.monorepo) {
@@ -42,6 +46,7 @@ export async function clone({ owner, repo, branch: ref, task, publishTag }: Knig
       const subPackageJSON = await fs.readJSON(filepath)
       if (task.packagesNameMap![subPackageJSON.name] && subPackageJSON.private !== true) {
         packages.push({
+          targetVersion: getTargetVersion(subPackageJSON.version),
           originalName: subPackageJSON.name,
           targetName: task.packagesNameMap![subPackageJSON.name],
           dir,
@@ -53,6 +58,7 @@ export async function clone({ owner, repo, branch: ref, task, publishTag }: Knig
   }
   else {
     packages.push({
+      targetVersion,
       originalName: packageJSON.name,
       targetName: task.publishName,
       dir: root,
@@ -62,7 +68,6 @@ export async function clone({ owner, repo, branch: ref, task, publishTag }: Knig
   }
 
   return {
-    targetVersion,
     packages,
     sha,
     root,

@@ -60,7 +60,7 @@ export async function runPublishJob(job: KnightlyJob, dryRun = false) {
     console.log(`- Building ${job.task.publishName}`)
 
     for (const pkg of cloneResult.packages)
-      await rewritePackageVersion(pkg, cloneResult)
+      await rewritePackageVersion(pkg)
 
     await install(cloneResult)
     await build(cloneResult, job)
@@ -71,7 +71,7 @@ export async function runPublishJob(job: KnightlyJob, dryRun = false) {
     for (const pkg of cloneResult.packages) {
       try {
         await publish(pkg, job, dryRun)
-        console.log(chalk.green(`- Published ${pkg.targetName} @${cloneResult.targetVersion}`))
+        console.log(chalk.green(`- Published ${pkg.targetName} @${pkg.targetVersion}`))
       }
       catch (e) {
         console.error(e)

@@ -36,6 +36,7 @@ export interface KnightlyJob {
 }
 
 export interface PackageInfo {
+  targetVersion: string
   originalName: string
   targetName: string
   dir: string
