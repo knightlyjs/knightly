@@ -19,6 +19,7 @@ export interface KnightlyTask {
   monorepo?: boolean
   workspaces?: string | string[]
   packagesNameMap?: Record<string, string>
+  buildForEach?: boolean
 
   noSkip?: boolean
   official?: boolean

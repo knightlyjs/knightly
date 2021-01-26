@@ -26,6 +26,7 @@ export async function clone({ owner, repo, branch: ref, task, publishTag }: Knig
   const lastMessage = (await git.log(['-1']))?.latest?.message
 
   const subversion = `knightly${publishTag ? `-${publishTag}` : ''}`
+
   function getTargetVersion(sourceVersion: string) {
     return `${semver.valid(semver.coerce(sourceVersion))}-${subversion}.${now.format('YYYYMMDDHHmm')}`
   }
@@ -47,7 +48,7 @@ export async function clone({ owner, repo, branch: ref, task, publishTag }: Knig
         continue
 
       const subPackageJSON = await fs.readJSON(filepath)
-      if (task.packagesNameMap![subPackageJSON.name] && subPackageJSON.private !== true) {
+      if (subPackageJSON.name && task.packagesNameMap![subPackageJSON.name] && subPackageJSON.private !== true) {
         packages.push({
           targetVersion: getTargetVersion(subPackageJSON.version),
           originalName: subPackageJSON.name,

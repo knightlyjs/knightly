@@ -63,13 +63,16 @@ export async function runPublishJob(job: KnightlyJob, dryRun = false) {
       await rewritePackageVersion(pkg)
 
     await install(cloneResult)
-    await build(cloneResult, job)
+    await build(cloneResult.root, cloneResult.packageJSON, job)
 
     for (const pkg of cloneResult.packages)
       await rewritePackage(pkg, cloneResult, job)
 
     for (const pkg of cloneResult.packages) {
       try {
+        if (job.task.buildForEach)
+          await build(pkg.dir, pkg.packageJSON, job)
+
         await publish(pkg, job, dryRun)
         console.log(chalk.green(`- Published ${pkg.targetName} @${pkg.targetVersion}`))
       }

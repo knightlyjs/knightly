@@ -3,6 +3,7 @@ import chalk from 'chalk'
 import { CI, KNIGHTLY_DEBUG } from '../config'
 
 export async function run(command: string, dir: string, env: Record<string, string> = {}, stdio?: 'inherit') {
+  console.log(chalk.blue(`$ cd ${dir}`))
   console.log(chalk.blue(`$ ${command}`))
   try {
     await execa.command(command, {

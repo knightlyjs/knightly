@@ -10,8 +10,8 @@ function getTimestampBadge() {
 }
 
 export function generateREADME(
-  { packageJSON, originalName, targetName }: PackageInfo,
-  { sha, lastMessage, targetVersion }: CloneResult,
+  { packageJSON, originalName, targetName, targetVersion }: PackageInfo,
+  { sha, lastMessage }: CloneResult,
   { pr, task, publishTag }: KnightlyJob,
 ) {
   const now = dayjs()

@@ -8,7 +8,6 @@ export async function install({ root }: CloneResult) {
     await run('yarn', root, { npm_execpath: 'yarn.js' })
   else if (fs.existsSync(path.join(root, 'pnpm-lock.yaml')))
     await run('pnpm install -s', root)
-
   else
     await run('npm install -s', root)
 }
