@@ -61,7 +61,7 @@ export async function runPublishJob(job: KnightlyJob, dryRun = false) {
 
     console.log('- Packages')
     for (const pkg of cloneResult.packages)
-      console.log(`  - ${pkg.originalName} -> ${chalk.green(pkg.targetName)} ${chalk.gray(`(${pkg.dir})`)}`)
+      console.log(`  | ${pkg.originalName} -> ${chalk.green(pkg.targetName)} ${chalk.gray(`(${pkg.dir})`)}`)
     console.log()
 
     for (const pkg of cloneResult.packages)
