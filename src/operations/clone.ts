@@ -34,7 +34,10 @@ export async function clone({ owner, repo, branch: ref, task, publishTag }: Knig
 
   const packages: PackageInfo[] = []
   if (task.monorepo) {
-    const packageDirs = await fg(task.workspaces!, { onlyDirectories: true, cwd: root })
+    const packageDirs = await fg(
+      task.workspaces || 'packages/*',
+      { onlyDirectories: true, cwd: root },
+    )
 
     for (const dirName of packageDirs) {
       const dir = path.join(root, dirName)
