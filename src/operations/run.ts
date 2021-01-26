@@ -1,11 +1,11 @@
-import { execSync } from 'child_process'
+import execa from 'execa'
 import chalk from 'chalk'
 import { CI, KNIGHTLY_DEBUG } from '../config'
 
 export async function run(command: string, dir: string, env: Record<string, string> = {}, stdio?: 'inherit') {
   console.log(chalk.blue(`$ ${command}`))
   try {
-    execSync(command, {
+    await execa.command(command, {
       cwd: dir,
       stdio: KNIGHTLY_DEBUG ? 'inherit' : stdio,
       env: CI
