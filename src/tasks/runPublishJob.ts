@@ -3,7 +3,7 @@ import chalk from 'chalk'
 import { octokit } from '../config'
 import { CloneResult, KnightlyJob } from '../types'
 import { rewritePackage, rewritePackageVersion } from '../rewrites'
-import { clone, install, build } from '../operations'
+import { clone, install, build, run } from '../operations'
 import { publish } from '../operations/publish'
 
 export async function runPublishJob(job: KnightlyJob, dryRun = false) {
@@ -79,6 +79,10 @@ export async function runPublishJob(job: KnightlyJob, dryRun = false) {
       try {
         if (job.task.buildForEach)
           await build(pkg.dir, pkg.packageJSON, job)
+
+        await run('npm run prepublishOnly --if-present', pkg.dir, {}, 'inherit')
+        await run('npm run prepare --if-present', pkg.dir, {}, 'inherit')
+        await run('npm run prepublish --if-present', pkg.dir, {}, 'inherit')
 
         await publish(pkg, job, dryRun)
         console.log(chalk.green(`- Published ${pkg.targetName} @${pkg.targetVersion}`))

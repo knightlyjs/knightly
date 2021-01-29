@@ -10,6 +10,13 @@ export async function publish({ dir, packageJSON }: PackageInfo, { publishTag, t
 
   // publish
   await run(`npm publish --access public --tag ${publishTag} ${dryRun ? '--dry-run' : ''}`, dir, { NODE_AUTH_TOKEN: NPM_TOKEN! })
-  if (publishTag === defaultBranch && !dryRun)
-    await run(`npm dist-tag add ${packageJSON.name}@${packageJSON.version} latest`, dir, { NODE_AUTH_TOKEN: NPM_TOKEN! })
+  if (publishTag === defaultBranch && !dryRun) {
+    const version = `${packageJSON.name}@${packageJSON.version}`
+    try {
+      await run(`npm dist-tag add ${version} latest`, dir, { NODE_AUTH_TOKEN: NPM_TOKEN! })
+    }
+    catch (e) {
+      console.warn(`failed to tag version ${version} as latest`)
+    }
+  }
 }
