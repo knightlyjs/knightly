@@ -20,7 +20,7 @@ specifiers:
   fast-glob: ^3.2.5
   fs-extra: ^9.1.0
   js-yaml: ^4.1.0
-  markdown-table: ^3.0.0
+  markdown-table: ^2.0.0
   pacote: ^11.3.2
   param-case: ^3.0.4
   rimraf: ^3.0.2
@@ -39,7 +39,7 @@ dependencies:
   fast-glob: 3.2.5
   fs-extra: 9.1.0
   js-yaml: 4.1.0
-  markdown-table: 3.0.0
+  markdown-table: 2.0.0
   pacote: 11.3.2
   param-case: 3.0.4
   semver: 7.3.5
@@ -604,10 +604,6 @@ packages:
   /@types/parse-json/4.0.0:
     resolution: {integrity: sha512-//oorEZjL6sbPcKUaCdIGlIUeH26mgzimjBB77G6XRgnDl/L5wOnpyBGRe/Mmf5CVW3PwEBE1NjiMZ/ssFh4wA==}
     dev: true
-
-  /@types/repeat-string/1.6.0:
-    resolution: {integrity: sha512-Nwr4xMZBJKzluvdF9QPKjqFi8EpR63jk0mQPBEXB/+kevUPBftRQrbt24m+NkRh0C9ftrNIqnnsDw9iyQv/j7g==}
-    dev: false
 
   /@types/semver/7.3.4:
     resolution: {integrity: sha512-+nVsLKlcUCeMzD2ufHEYuJ9a2ovstb6Dp52A5VsoKxDXgvE051XgHI/33I1EymwkRGQkwnA0LkhnUzituGs4EQ==}
@@ -2371,10 +2367,9 @@ packages:
       - supports-color
     dev: false
 
-  /markdown-table/3.0.0:
-    resolution: {integrity: sha512-sSFatFzGRPVHCKgj80iNcYDdySAGS36qBzPON99RO0Zl5YwkK38zmhMQ0QSJik3YxGroyBnqP51ZGLueDtOqmg==}
+  /markdown-table/2.0.0:
+    resolution: {integrity: sha512-Ezda85ToJUBhM6WGaG6veasyym+Tbs3cMAw/ZhOPqXiYsr0jgocBV3j3nx+4lk47plLlIqjwuTm/ywVI+zjJ/A==}
     dependencies:
-      '@types/repeat-string': 1.6.0
       repeat-string: 1.6.1
     dev: false
 

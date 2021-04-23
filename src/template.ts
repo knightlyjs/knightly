@@ -1,5 +1,5 @@
 import dayjs from 'dayjs'
-import { markdownTable as makeTable } from 'markdown-table'
+import makeTable from 'markdown-table'
 import { PackageInfo, KnightlyJob, CloneResult } from './types'
 import { version } from '.'
 
