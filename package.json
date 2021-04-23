@@ -8,7 +8,7 @@
   "license": "MIT",
   "scripts": {
     "prepublishOnly": "rimraf dist && npm run build",
-    "dev": "KNIGHTLY_DEBUG=true esno src/cli.ts -c knightly.json --dry-run",
+    "dev": "KNIGHTLY_DEBUG=true esno src/cli.ts -c knightly.json --dry-run --no-skip",
     "build": "tsup src/index.ts src/cli.ts --format cjs,esm --dts",
     "release": "npx bumpp --commit --push --tag && npm publish"
   },

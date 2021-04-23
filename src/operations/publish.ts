@@ -9,7 +9,7 @@ function timeout(ms: number) {
 }
 
 export async function publish({ dir, packageJSON }: PackageInfo, { publishTag, task: { defaultBranch = 'master', publishDir } }: KnightlyJob, dryRun = false) {
-  dir = publishDir || dir
+  dir = publishDir ? path.resolve(dir, publishDir) : dir
   // remove all scripts
   await fs.writeJSON(path.join(dir, 'package.json'), { ...packageJSON, scripts: {} }, { spaces: 2 })
 
