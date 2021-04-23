@@ -8,7 +8,8 @@ function timeout(ms: number) {
   return new Promise(resolve => setTimeout(resolve, ms))
 }
 
-export async function publish({ dir, packageJSON }: PackageInfo, { publishTag, task: { defaultBranch = 'master' } }: KnightlyJob, dryRun = false) {
+export async function publish({ dir, packageJSON }: PackageInfo, { publishTag, task: { defaultBranch = 'master', publishDir } }: KnightlyJob, dryRun = false) {
+  dir = publishDir || dir
   // remove all scripts
   await fs.writeJSON(path.join(dir, 'package.json'), { ...packageJSON, scripts: {} }, { spaces: 2 })
 

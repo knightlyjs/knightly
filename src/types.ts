@@ -15,6 +15,7 @@ export interface KnightlyTask {
 
   buildScript?: string
   basePath?: string
+  publishDir?: string
 
   monorepo?: boolean
   workspaces?: string | string[]
