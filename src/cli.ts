@@ -29,7 +29,7 @@ yargs
       console.log(`${chalk.blue('Knightly ')}${chalk.cyan(`v${version}`)}\n`)
 
       let tasks: KnightlyTask[] | KnightlyTask = args.config.match(/.ya?ml$/i)
-        ? YAML.safeLoad(await fs.readFile(args.config, 'utf-8'))
+        ? YAML.load(await fs.readFile(args.config, 'utf-8'))
         : JSON.parse(await fs.readFile(args.config, 'utf-8'))
 
       if (!Array.isArray(tasks))
