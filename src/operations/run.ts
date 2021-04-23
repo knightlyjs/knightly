@@ -24,8 +24,8 @@ export async function run(command: string, dir: string, env: Record<string, stri
     })
   }
   catch (error) {
+    console.error(error.stderr?.toString() || error)
     if (error.status !== 0) {
-      console.error(error.stderr?.toString() || error)
       throw new Error(`[${error.status}] ${error.message}`)
     }
   }
