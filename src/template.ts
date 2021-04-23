@@ -1,5 +1,5 @@
 import dayjs from 'dayjs'
-import makeTable from 'markdown-table'
+import { markdownTable as makeTable } from 'markdown-table'
 import { PackageInfo, KnightlyJob, CloneResult } from './types'
 import { version } from '.'
 
@@ -32,7 +32,7 @@ export function generateREADME(
     table.push(['PR', `[#${pr}](//github.com/${task.owner}/${task.repo}/pull/${pr})`])
 
   table.push([`version (\`${packageJSON.stableVersion}*\`)`, `\`${targetVersion}\``])
-  table.push(['last commit', lastMessage])
+  table.push(['last commit', lastMessage!])
   table.push([`sha (\`${publishTag || 'HEAD'}\`)`, `\`${sha}\``])
   table.push(['changes', `[compare with last release](${compareLink})`])
   table.push(['build', now.toISOString()])
